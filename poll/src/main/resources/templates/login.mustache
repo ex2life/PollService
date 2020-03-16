@@ -1,0 +1,26 @@
+{{> header}}
+
+<form action="/auth" method="post">
+    <div class="card opacity">
+        <div class="card-header">
+            <h3>Авторизация</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-6">
+                    <label for="InputLogin">Логин</label>
+                    <input required type="text" class="form-control" id="InputLogin" name="login" placeholder="Введите логин">
+                </div>
+                <div class="form-group col-6">
+                    <label for="InputPassword">Пароль</label>
+                    <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Пароль">
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn col-12 btn-outline-primary text-white">Войти</button>
+        </div>
+    </div>
+</form>
+
+{{> footer}}

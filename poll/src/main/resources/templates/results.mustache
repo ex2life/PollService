@@ -1,0 +1,59 @@
+{{> header}}
+
+<form action="/" method="post">
+    <div class="card opacity">
+        <div class="card-header">
+            <h3 class="card-title">
+                {{poll.name}}
+            </h3>
+        </div>
+        <div class="card-body">
+            {{^interviewees.empty}}
+            <div class="card-title"><h5>Прошедшие опрос:</h5></div>
+            <ul class="list-group bg-transparent text-white">
+                {{#interviewees}}
+                <a href="/results/interviewee/{{interviewee.id}}" class="list-group-item list-group-item-action flex-column align-items-start opacityhover text-white">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{user_name}}</h5>
+                        <small>{{interviewee.date}}</small>
+                    </div>
+                </a>
+                {{/interviewees}}
+            </ul>
+            {{/interviewees.empty}}
+            {{#interviewees.empty}}
+            <p>Пока опрос никто не прошел, ждите.</p>
+            {{/interviewees.empty}}
+        </div>
+        <div class="card-footer">
+            Итого человек прошли опрос: {{interviewees.size}}
+        </div>
+    </div>
+</form>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"  role="document">
+        <div class="modal-content opacity5">
+            <form action="/edit-poll/{{poll.id}}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Новый вопрос</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">✕</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="questionText">Вопрос</label>
+                        <input required type="text" class="form-control" id="questionText" name="questionText" placeholder="Введите текст вопроса">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-info" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-outline-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> footer}}

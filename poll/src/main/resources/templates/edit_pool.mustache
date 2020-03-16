@@ -1,0 +1,61 @@
+{{> header}}
+
+<form action="/" method="post">
+    <div class="card opacity">
+        <div class="card-header">
+            <h3 class="card-title">
+                {{poll.name}}
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-10">
+                    <div class="card-title"><h5>Список вопросов</h5></div>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-outline-primary text-white"  style="float: right;" data-toggle="modal" data-target="#exampleModal">Добавить</a>
+                </div>
+            </div>
+            {{^questions.empty}}
+            <ul class="list-group">
+                {{#questions}}
+                    <li class="list-group-item opacity">{{name}}</li>
+                {{/questions}}
+            </ul>
+            {{/questions.empty}}
+            {{#questions.empty}}
+            <p>Вопросов пока нет, творите.</p>
+            {{/questions.empty}}
+        </div>
+        <div class="card-footer">
+            Итого вопросов: {{questions.size}}
+        </div>
+    </div>
+</form>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"  role="document">
+        <div class="modal-content opacity5">
+            <form action="/edit-poll/{{poll.id}}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Новый вопрос</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">✕</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="questionText">Вопрос</label>
+                        <input required type="text" class="form-control" id="questionText" name="questionText" placeholder="Введите текст вопроса">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-info" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-outline-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> footer}}

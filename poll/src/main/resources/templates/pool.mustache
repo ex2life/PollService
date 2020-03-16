@@ -1,0 +1,32 @@
+{{> header}}
+
+<form action="/save-result" method="post">
+    <input type="text" style="display: none;" value="{{poll.id}}" name="poll_id">
+    <div class="card opacity">
+        <div class="card-header">
+            <h3>{{poll.name}}</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {{^questions.empty}}
+                    {{#questions}}
+                    <div class="form-group col-12">
+                        <input type="text" style="display: none;" value="{{id}}" name="question_id">
+                        <label for="InputAnswer">{{name}}</label>
+                        <input required type="text" class="form-control" id="InputAnswer" name="answer">
+                    </div>
+                    {{/questions}}
+                {{/questions.empty}}
+                {{#questions.empty}}
+                <p>Вопросов пока нет, творите.</p>
+                {{/questions.empty}}
+
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn col-12 btn-outline-primary text-white">Сохранить ответы</button>
+        </div>
+    </div>
+</form>
+
+{{> footer}}

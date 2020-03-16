@@ -1,0 +1,44 @@
+{{> header}}
+{{^polls.empty}}
+    <div class="card-columns">
+        {{#polls}}
+            <div class="card opacity">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-10">
+                            <h5 class="card-title">{{poll.name}}</h5>
+                        </div>
+                        <div class="col-2">
+                            {{#root}}
+                            <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
+                                <a class="btn btn-outline-danger text-white"  href="/edit-poll/{{poll.id}}">❔</a>
+                                <a class="btn btn-outline-danger text-white"  href="/del-poll/{{poll.id}}">✕</a>
+                            </div>
+                            {{/root}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form autocomplete="off" class="m-0">
+                        <input type="text" hidden name="id" value="">
+                        <p class="card-text">Вопросов: {{size}}</p>
+                        <p class="card-text">Автор опроса: {{user_name}}</p>
+                        <div class="row">
+                            <div class="col-8">
+                                <p class="card-text"><small class="text-white-50">Создан {{poll.date}} </small></p>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-outline-primary text-white"  style="float: right;" href="/poll/{{poll.id}}">Пройти</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {{/polls}}
+    </div>
+{{/polls.empty}}
+{{#polls.empty}}
+<p>Опросов пока нет, вы можете быть первым.</p>
+{{/polls.empty}}
+
+{{> footer}}

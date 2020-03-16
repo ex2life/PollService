@@ -1,0 +1,65 @@
+<html>
+<head>
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container text-white">
+        <div class="row mb-5">
+            <div class="col-6 ">
+                <a class="text-white" href="/" style=" text-decoration: none;"><h1>Сервис для опросов "Poll"</h1></a>
+            </div>
+            <div class="col-6 text-right">
+                {{^auth}}
+                    <a class="btn btn-outline-primary text-white" href="/login">Вход</a>
+                    <a class="btn btn-outline-primary text-white" href="/register">Регистрация</a>
+                {{/auth}}
+                {{#auth}}
+                {{#index}}
+                <a class="btn btn-outline-primary text-white" data-toggle="modal" data-target="#newpoll">Создать опрос</a>
+                {{/index}}
+                <div class="btn-group">
+                    <a class="btn btn-outline-primary text-white" href="/profile">{{user_name}}</a>
+                    <button id="dLabel" type="button" class="btn btn-outline-primary text-white dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu"  aria-labelledby="dLabel">
+                        <a class="dropdown-item" href="/mypolls">Мои опросы</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/quit">Выйти</a>
+                    </div>
+                </div>
+                {{/auth}}
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="newpoll" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered"  role="document">
+                    <div class="modal-content opacity5">
+                        <form action="/savepoll" method="post">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Новый опрос</h5>
+                                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">✕</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="namepoll">Название</label>
+                                    <input required type="text" class="form-control" id="namepoll" name="namepoll" placeholder="Введите название опроса">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-info" data-dismiss="modal">Закрыть</button>
+                                <button type="submit" class="btn btn-outline-primary">Создать</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>

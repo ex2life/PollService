@@ -1,0 +1,17 @@
+{{> header}}
+
+<form action="/savepoll" method="post">
+    <div class="row">
+        <div class="form-group col-9">
+            <label for="namepoll">Название опроса</label>
+            <input type="text" class="form-control" id="namepoll" name="namepoll" placeholder="Введите название опроса">
+        </div>
+        <div class="form-group col-3">
+            <label for="sizepoll">Количество вопросов</label>
+            <input type="number" class="form-control" id="sizepoll" name="sizepoll" value="1" max="20" min="1">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Создать</button>
+</form>
+
+{{> footer}}

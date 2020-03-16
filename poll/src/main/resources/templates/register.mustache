@@ -1,0 +1,55 @@
+{{> header}}
+<SCRIPT LANGUAGE="JavaScript">
+
+    <!-- Begin
+    function checkPw(form) {
+        pw1 = form.InputPassword.value;
+        pw2 = form.RepeatInputPassword.value;
+
+        if (pw1 != pw2) {
+            alert ("\nВы ввели в поле \"Повторить\" пароль отличный от введенного в поле \"Пароль\".")
+            return false;
+        }
+        else return true;
+    }
+    // End -->
+</script>
+<form onSubmit="return checkPw(this)" action="/new_user" method="post">
+    <div class="card opacity">
+        <div class="card-header">
+            <h3>Регистрация</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-4">
+                    <label for="InputEmail">Email</label>
+                    <input required type="email" class="form-control" id="InputEmail" name="email" aria-describedby="emailHelp" placeholder="Введите email">
+                    <small id="emailHelp" class="form-text text-white-50">Ничего слать не будем...</small>
+                </div>
+                <div class="form-group col-4">
+                    <label for="InputLogin">Логин</label>
+                    <input required type="text" class="form-control" id="InputLogin" name="login" placeholder="Введите логин">
+                </div>
+                <div class="form-group col-4">
+                    <label for="InputName">Имя</label>
+                    <input required type="text" class="form-control" id="InputName" name="name" placeholder="Введите имя">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label for="InputPassword">Пароль</label>
+                    <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Пароль">
+                </div>
+                <div class="form-group col-6">
+                    <label for="RepeatInputPassword">Повторите пароль</label>
+                    <input type="password" class="form-control" id="RepeatInputPassword" placeholder="Пароль-повтор">
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn col-12 btn-outline-primary text-white">Зарегистироваться</button>
+        </div>
+    </div>
+</form>
+
+{{> footer}}
