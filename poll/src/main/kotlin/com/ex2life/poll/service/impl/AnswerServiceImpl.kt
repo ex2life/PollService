@@ -32,4 +32,9 @@ class AnswerServiceImpl (
         return answerRepository.findByInterviewee_id(interviewee.id!!)
 
     }
+
+    override fun findByQuestion(question: Question): List<Answer> {
+        return answerRepository.findByQuestion_id(question.id!!)
+
+    }
 }

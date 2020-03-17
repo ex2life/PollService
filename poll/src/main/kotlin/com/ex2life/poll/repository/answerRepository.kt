@@ -10,4 +10,6 @@ import org.springframework.data.jpa.repository.Query
 interface answerRepository: JpaRepository <Answer, Int> {
     @Query("FROM Answer WHERE interviewee_id = :interviewee_id")
     fun findByInterviewee_id(interviewee_id: Int): List<Answer>
+    @Query("FROM Answer WHERE question_id = :question_id")
+    fun findByQuestion_id(question_id: Int): List<Answer>
 }

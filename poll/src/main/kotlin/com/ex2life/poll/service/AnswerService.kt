@@ -8,4 +8,5 @@ import com.ex2life.poll.entity.Question
 interface AnswerService {
     fun addAnswer(answer: Answer): Answer
     fun findByInterviewee(interviewee: Interviewee):List<Answer>
+    fun findByQuestion(question: Question):List<Answer>
 }

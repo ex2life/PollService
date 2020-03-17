@@ -4,35 +4,26 @@
     <div class="card opacity">
         <div class="card-header">
             <h3 class="card-title">
-                {{poll.name}}
+                {{question_name}}
             </h3>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-10">
-                    <div class="card-title"><h5>Список вопросов</h5></div>
-                </div>
-                <div class="col-2">
-                    <a class="btn btn-outline-primary text-white"  style="float: right;" data-toggle="modal" data-target="#exampleModal">Добавить</a>
-                </div>
-            </div>
-            {{^questions.empty}}
-                <ul class="list-group bg-transparent text-white">
-                    {{#questions}}
-                    <a href="/results/question/{{id}}" class="list-group-item list-group-item-action flex-column align-items-start opacityhover text-white">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">{{name}}</h5>
-                        </div>
-                    </a>
-                    {{/questions}}
-                </ul>
-            {{/questions.empty}}
-            {{#questions.empty}}
-            <p>Вопросов пока нет, творите.</p>
-            {{/questions.empty}}
-        </div>
-        <div class="card-footer">
-            Итого вопросов: {{questions.size}}
+            {{^result.empty}}
+            <div class="card-title"><h5>{{poll.name}}</h5></div>
+            <ul class="list-group bg-transparent text-white">
+                {{#result}}
+                <li href="#" class="list-group-item opacity flex-column align-items-start text-white">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{title}}</h5>
+                    </div>
+                    <p class="mb-1">{{answer}}</p>
+                </li>
+                {{/result}}
+            </ul>
+            {{/result.empty}}
+            {{#result.empty}}
+            <p>Пока на этот вопрос никто не ответил, ждите.</p>
+            {{/result.empty}}
         </div>
     </div>
 </form>

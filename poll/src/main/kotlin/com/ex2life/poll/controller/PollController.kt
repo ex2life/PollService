@@ -22,7 +22,7 @@ data class IntervieweePlus (
 )
 
 data class Result (
-        var question: String = "",
+        var title: String = "",
         var answer: String = ""
 )
 
@@ -183,7 +183,7 @@ class PollController(private val userService: userServiceClient) {
         for (answer in answers) {
             answersList.add(
                     Result(
-                            question = questionService.findQuestionById(answer.question_id).name,
+                            title = questionService.findQuestionById(answer.question_id).name,
                             answer = answer.answer
                     )
             )
@@ -194,5 +194,33 @@ class PollController(private val userService: userServiceClient) {
         model["result"]=answersList
         model["size"]=questions.size
         return "results_interviewee"
+    }
+
+    @GetMapping("/results/question/{id}")
+    fun results_question(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @PathVariable id:Int  ) : String{
+        if (user_id!="0"){
+            model["auth"] = true
+            model["user_name"]=userService.getUserName(user_id.toInt())
+        }
+        else return ("redirect:/login")
+        model["index"] = false
+        val question=questionService.findQuestionById(id)
+        var answers=answerService.findByQuestion(question)
+        var poll=pollService.findPollById(question.poll_id)
+        val answersList = mutableListOf<Result>()
+        for (answer in answers) {
+            answersList.add(
+                    Result(
+                            title = userService.getUserName(intervieweeService.findIntervieweeById(answer.interviewee_id).user_id),
+                            answer = answer.answer
+                    )
+            )
+        }
+        model["title"] = question.name
+        model["poll"]=poll
+        model["question_name"]=question.name
+        model["result"]=answersList
+        model["size"]=answersList.size
+        return "results_question"
     }
 }
