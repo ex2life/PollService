@@ -87,7 +87,7 @@ class ViewController(private val userService: userServiceClient) {
             model["user_name"]=userService.getUserName(user_id.toInt())
         }
         else model["auth"] = false
-        model["index"] = true
+        model["index"] = false
         return "mypolls"
     }
 

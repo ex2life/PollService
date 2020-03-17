@@ -39,7 +39,7 @@ class PollController(private val userService: userServiceClient) {
     lateinit var answerService: AnswerService
 
     @GetMapping("/new-poll")
-    fun new_poll(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String ) : String{
+    fun new_poll(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String ) : String{
         model["title"] = "Новый опрос"
         if (user_id!="0"){
             model["auth"] = true
@@ -52,7 +52,7 @@ class PollController(private val userService: userServiceClient) {
     }
 
     @GetMapping("/del-poll/{id}")
-    fun del_poll(@CookieValue(value = "user_id", defaultValue = "0") user_id: String, @PathVariable id:Int ) : String{
+    fun del_poll(@CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int ) : String{
 
         if (user_id!="0"){
             pollService.delPoll(id)
@@ -61,7 +61,7 @@ class PollController(private val userService: userServiceClient) {
     }
 
     @PostMapping("/savepoll")
-    fun newpoll(namepoll: String, @CookieValue(value = "user_id", defaultValue = "0") user_id: String ) :String{
+    fun newpoll(namepoll: String, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String ) :String{
         var poll=pollService.addPoll(
                 Poll(
                         name=namepoll,
@@ -72,7 +72,7 @@ class PollController(private val userService: userServiceClient) {
     }
 
     @GetMapping("/edit-poll/{id}")
-    fun new_question(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @PathVariable id:Int  ) : String{
+    fun new_question(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int  ) : String{
         if (user_id!="0"){
             model["auth"] = true
             model["user_name"]=userService.getUserName(user_id.toInt())
@@ -90,7 +90,7 @@ class PollController(private val userService: userServiceClient) {
     }
 
     @PostMapping("/edit-poll/{id}")
-    fun save_question(model: Model, questionText : String, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @PathVariable id:Int ) : String{
+    fun save_question(model: Model, questionText : String, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int ) : String{
         if (user_id=="0") return ("redirect:/login")
         var poll=pollService.findPollById(id)
         questionService.addQuestion(
@@ -103,7 +103,7 @@ class PollController(private val userService: userServiceClient) {
     }
 
     @GetMapping("/poll/{id}")
-    fun process(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @PathVariable id:Int  ) : String{
+    fun process(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int  ) : String{
         if (user_id!="0"){
             model["auth"] = true
             model["user_name"]=userService.getUserName(user_id.toInt())
@@ -120,7 +120,7 @@ class PollController(private val userService: userServiceClient) {
     }
 
     @PostMapping("/save-result")
-    fun saveResult(model: Model, poll_id:Int,  answer:Array<String>, question_id:Array<Int>,  @CookieValue(value = "user_id", defaultValue = "0") user_id: String) : String {
+    fun saveResult(model: Model, poll_id:Int,  answer:Array<String>, question_id:Array<Int>,  @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String) : String {
         var interviewee=intervieweeService.addInterviewee(Interviewee(
                 user_id = user_id.toInt(),
                 poll_id = poll_id
@@ -141,7 +141,7 @@ class PollController(private val userService: userServiceClient) {
     }
 
     @GetMapping("/results/{id}")
-    fun results(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @PathVariable id:Int  ) : String{
+    fun results(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int  ) : String{
         if (user_id!="0"){
             model["auth"] = true
             model["user_name"]=userService.getUserName(user_id.toInt())
@@ -168,7 +168,7 @@ class PollController(private val userService: userServiceClient) {
     }
 
     @GetMapping("/results/interviewee/{id}")
-    fun results_interviewee(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @PathVariable id:Int  ) : String{
+    fun results_interviewee(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int  ) : String{
         if (user_id!="0"){
             model["auth"] = true
             model["user_name"]=userService.getUserName(user_id.toInt())
@@ -197,7 +197,7 @@ class PollController(private val userService: userServiceClient) {
     }
 
     @GetMapping("/results/question/{id}")
-    fun results_question(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @PathVariable id:Int  ) : String{
+    fun results_question(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int  ) : String{
         if (user_id!="0"){
             model["auth"] = true
             model["user_name"]=userService.getUserName(user_id.toInt())

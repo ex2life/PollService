@@ -16,6 +16,9 @@
                 <a class="text-white" href="/" style=" text-decoration: none;"><h1>Сервис для опросов "Poll"</h1></a>
             </div>
             <div class="col-6 text-right">
+                {{^index}}
+                <a class="btn btn-outline-primary text-white" href="/">Список опросов</a>
+                {{/index}}
                 {{^auth}}
                     <a class="btn btn-outline-primary text-white" href="/login">Вход</a>
                     <a class="btn btn-outline-primary text-white" href="/register">Регистрация</a>

@@ -21,7 +21,7 @@ class AuthController(private val userService: userServiceClient) {
     lateinit var pollService: PollService
 
     @GetMapping("/register")
-    fun new_user(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String ) : String{
+    fun new_user(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String ) : String{
         model["title"] = "Регистрация"
         model["auth"] = false
         model["index"] = false
@@ -29,7 +29,7 @@ class AuthController(private val userService: userServiceClient) {
     }
 
     @GetMapping("/login")
-    fun old_user(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String ) : String{
+    fun old_user(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String ) : String{
         model["title"] = "Авторизация"
         model["auth"] = false
         model["index"] = false
@@ -37,8 +37,12 @@ class AuthController(private val userService: userServiceClient) {
     }
 
     @PostMapping("/new_user")
-    fun save_new_user(email: String, name: String, login: String, password: String) :String{
-        if (userService.addUser(email, name, login, password)) return "redirect:/"
+    fun save_new_user(model: Model, email: String, name: String, login: String, password: String) :String{
+        if (userService.addUser(email, name, login, password)) {
+            model["title"] = "Статус регистрации"
+            model["status"] = "Профиль создан успешно"
+            return "login_status"
+        }
         else return "redirect:/error"
     }
 
@@ -75,7 +79,7 @@ class AuthController(private val userService: userServiceClient) {
     }
 
     @GetMapping("/profile")
-    fun profile_user(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String ) : String{
+    fun profile_user(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String ) : String{
         model["polls"]=pollService.getAll()
         model["title"] = "Ваш профиль"
         if (user_id!="0"){
@@ -95,7 +99,7 @@ class AuthController(private val userService: userServiceClient) {
     }
 
     @PostMapping("/update_user")
-    fun update_user(email: String, name: String, password: String, @CookieValue(value = "user_id", defaultValue = "0") user_id: String) :String{
+    fun update_user(email: String, name: String, password: String, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String) :String{
         if (userService.updateUser(user_id, email, name, password)) return "redirect:/quit"
         else return "redirect:/error"
     }
