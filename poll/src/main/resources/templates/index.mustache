@@ -12,7 +12,7 @@
                             {{#root}}
                             <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
                                 <a class="btn btn-outline-danger text-white"  href="/edit-poll/{{poll.id}}">❔</a>
-                                <a class="btn btn-outline-danger text-white"  href="/del-poll/{{poll.id}}">✕</a>
+                                <a class="btn btn-outline-danger text-white" onclick="confim('/del-poll/{{poll.id}}');">✕</a>
                             </div>
                             {{/root}}
                         </div>
