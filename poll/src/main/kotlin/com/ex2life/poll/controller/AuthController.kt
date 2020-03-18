@@ -31,7 +31,7 @@ class AuthController(private val userService: userServiceClient) {
     @GetMapping("/login")
     fun old_user(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String ) : String{
         model["title"] = "Авторизация"
-        model["auth"] = true
+        model["auth"] = false
         model["index"] = false
         return "login"
     }
@@ -41,6 +41,7 @@ class AuthController(private val userService: userServiceClient) {
         if (userService.addUser(email, name, login, password)) {
             model["title"] = "Статус регистрации"
             model["status"] = "Профиль создан успешно"
+            model["emphty"] = true
             return "login_status"
         }
         else return "redirect:/error"
@@ -63,6 +64,7 @@ class AuthController(private val userService: userServiceClient) {
 
         }
         model["title"] = "Статус авторизации"
+        model["emphty"] = true
         return "login_status"
     }
 
@@ -75,6 +77,7 @@ class AuthController(private val userService: userServiceClient) {
         response.addCookie(cookie2)
         model["status"] = "Вы вышли успешно"
         model["title"] = "Статус авторизации"
+        model["emphty"] = true
         return "login_status"
     }
 

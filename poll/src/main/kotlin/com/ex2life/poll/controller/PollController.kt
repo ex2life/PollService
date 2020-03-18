@@ -204,7 +204,7 @@ class PollController(private val userService: userServiceClient) {
         }
         model["title"] = poll.name
         model["poll"]=poll
-        model["user_name"]=userService.getUserName(interviewee.user_id)
+        model["interviewee_name"]=userService.getUserName(interviewee.user_id)
         model["result"]=answersList
         model["size"]=questions.size
         return "results_interviewee"

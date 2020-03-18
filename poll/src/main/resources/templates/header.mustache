@@ -17,6 +17,7 @@
                 <a class="text-white" href="/" style=" text-decoration: none;"><h1>Сервис для опросов "Poll"</h1></a>
             </div>
             <div class="col-6 text-right">
+                {{^emphty}}
                 {{^index}}
                 <a class="btn btn-outline-primary text-white" href="/">Список опросов</a>
                 {{/index}}
@@ -40,6 +41,7 @@
                     </div>
                 </div>
                 {{/auth}}
+                {{/emphty}}
             </div>
             <!-- Modal -->
             <div class="modal fade" id="newpoll" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
