@@ -145,6 +145,7 @@ class PollController(private val userService: userServiceClient) {
             )
         }
         model["status"]="Спасибо за прохождение опроса"
+        model["emphty"]=true
         model["title"]="Спасибо за прохождение опроса"
         return "thanks"
     }
