@@ -88,7 +88,7 @@ class AuthController(private val userService: userServiceClient) {
         model["title"] = "Ваш профиль"
         if (user_id!="0"){
             model["auth"] = true
-            var json=userService.getUser(user_id.toInt())
+            var json=userService.getUser(user_id.toInt(), token)
             var json_obj= JsonParser().parse(json).getAsJsonObject()
             model["user_name"]=userService.getUserName(user_id.toInt())
             model["user_email"]=json_obj.get("email").asString
@@ -105,7 +105,7 @@ class AuthController(private val userService: userServiceClient) {
     @PostMapping("/update_user")
     fun update_user(email: String, name: String, password: String, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String) :String{
         if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
-        if (userService.updateUser(user_id, email, name, password)) return "redirect:/quit"
+        if (userService.updateUser(user_id, email, name, password, token)) return "redirect:/quit"
         else return "redirect:/error"
     }
 }

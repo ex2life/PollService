@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam
 @FeignClient("PollAuthService", fallback = userServiceClientFallback::class)
 interface userServiceClient {
     @GetMapping("/get_user")
-    fun getUser(@RequestParam("id_user")id_user: Int):String
+    fun getUser(@RequestParam("id_user")id_user: Int, @RequestParam("token")token: String):String
     @GetMapping("/get_user_name")
     fun getUserName(@RequestParam("id_user")id_user: Int):String
     @PostMapping("/add_user")
     fun addUser(@RequestParam("email")email: String, @RequestParam("name")name: String, @RequestParam("login")login: String, @RequestParam("password")password: String):Boolean
     @PostMapping("/update_user")
-    fun updateUser(@RequestParam("id_user")id_user: String, @RequestParam("email")email: String, @RequestParam("name")name: String, @RequestParam("password")password: String):Boolean
+    fun updateUser(@RequestParam("id_user")id_user: String, @RequestParam("email")email: String, @RequestParam("name")name: String, @RequestParam("password")password: String, @RequestParam("token")token: String):Boolean
     @PostMapping("/auth_user")
     fun authUser(@RequestParam("login")login: String, @RequestParam("password")password: String):String
     @PostMapping("/check_token")
@@ -31,7 +31,7 @@ interface userServiceClient {
 
 @Component
 class userServiceClientFallback: userServiceClient {
-    override  fun getUser(id_user: Int)= "{\n" +
+    override  fun getUser(id_user: Int, token: String)= "{\n" +
             "    \"id\": 0,\n" +
             "    \"login\": \"login\",\n" +
             "    \"name\": \"AnonimUser\",\n" +
@@ -41,7 +41,7 @@ class userServiceClientFallback: userServiceClient {
             "}"
     override fun getUserName(id_user: Int)="AnonimUser"
     override fun addUser(@RequestParam("email")email: String, @RequestParam("name")name: String, @RequestParam("login")login: String, @RequestParam("password")password: String)=false
-    override fun updateUser(@RequestParam("id_user")id_user: String, @RequestParam("email")email: String, @RequestParam("name")name: String, @RequestParam("password")password: String)=false
+    override fun updateUser(@RequestParam("id_user")id_user: String, @RequestParam("email")email: String, @RequestParam("name")name: String, @RequestParam("password")password: String, @RequestParam("token")token: String)=false
     override fun authUser(@RequestParam("login")login: String, @RequestParam("password")password: String)="{\n" +
             "    \"id\": 0,\n" +
             "    \"token\": \"\"\n" +

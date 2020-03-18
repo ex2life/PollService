@@ -44,7 +44,8 @@ class apiController {
     lateinit var userService: UserService
 
     @GetMapping("/get_user")
-    fun getUser(@RequestParam("id_user") id_user: Int):User{
+    fun getUser(@RequestParam("id_user") id_user: Int,@RequestParam("token") token: String):User{
+        if (!check_User(id_user,token)) return User()
         return (userService.findUserById(id_user));
     }
 
@@ -64,7 +65,8 @@ class apiController {
     }
 
     @PostMapping("/update_user")
-    fun update_User(@RequestParam("id_user")id_user: Int, @RequestParam("email")email: String, @RequestParam("name")name: String, @RequestParam("password")password: String):Boolean{
+    fun update_User(@RequestParam("id_user")id_user: Int, @RequestParam("email")email: String, @RequestParam("name")name: String, @RequestParam("password")password: String, @RequestParam("token")token: String):Boolean{
+        if (!check_User(id_user,token)) return false
         val user=userService.findUserById(id_user)
         user.name=name
         user.email=email

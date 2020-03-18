@@ -111,13 +111,12 @@ class PollController(private val userService: userServiceClient) {
 
     @GetMapping("/poll/{id}")
     fun process(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int  ) : String{
-        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
-        if (!userService.checkUser(pollService.findPollById(id).user_id,token)) return "redirect:/error"
         if (user_id!="0"){
             model["auth"] = true
             model["user_name"]=userService.getUserName(user_id.toInt())
         }
         else return ("redirect:/login")
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
         model["index"] = false
         var poll=pollService.findPollById(id)
         var questions=questionService.findByPoll(poll)
