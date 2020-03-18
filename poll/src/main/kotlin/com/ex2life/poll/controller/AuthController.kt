@@ -31,7 +31,7 @@ class AuthController(private val userService: userServiceClient) {
     @GetMapping("/login")
     fun old_user(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String ) : String{
         model["title"] = "Авторизация"
-        model["auth"] = false
+        model["auth"] = true
         model["index"] = false
         return "login"
     }
@@ -80,6 +80,7 @@ class AuthController(private val userService: userServiceClient) {
 
     @GetMapping("/profile")
     fun profile_user(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String ) : String{
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
         model["polls"]=pollService.getAll()
         model["title"] = "Ваш профиль"
         if (user_id!="0"){
@@ -100,6 +101,7 @@ class AuthController(private val userService: userServiceClient) {
 
     @PostMapping("/update_user")
     fun update_user(email: String, name: String, password: String, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String) :String{
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
         if (userService.updateUser(user_id, email, name, password)) return "redirect:/quit"
         else return "redirect:/error"
     }

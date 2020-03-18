@@ -40,6 +40,7 @@ class PollController(private val userService: userServiceClient) {
 
     @GetMapping("/new-poll")
     fun new_poll(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String ) : String{
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
         model["title"] = "Новый опрос"
         if (user_id!="0"){
             model["auth"] = true
@@ -53,7 +54,8 @@ class PollController(private val userService: userServiceClient) {
 
     @GetMapping("/del-poll/{id}")
     fun del_poll(@CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int ) : String{
-
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
+        if (!userService.checkUser(pollService.findPollById(id).user_id,token)) return "redirect:/error"
         if (user_id!="0"){
             pollService.delPoll(id)
         }
@@ -62,6 +64,7 @@ class PollController(private val userService: userServiceClient) {
 
     @PostMapping("/savepoll")
     fun newpoll(namepoll: String, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String ) :String{
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
         var poll=pollService.addPoll(
                 Poll(
                         name=namepoll,
@@ -73,6 +76,8 @@ class PollController(private val userService: userServiceClient) {
 
     @GetMapping("/edit-poll/{id}")
     fun new_question(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int  ) : String{
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
+        if (!userService.checkUser(pollService.findPollById(id).user_id,token)) return "redirect:/error"
         if (user_id!="0"){
             model["auth"] = true
             model["user_name"]=userService.getUserName(user_id.toInt())
@@ -91,6 +96,8 @@ class PollController(private val userService: userServiceClient) {
 
     @PostMapping("/edit-poll/{id}")
     fun save_question(model: Model, questionText : String, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int ) : String{
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
+        if (!userService.checkUser(pollService.findPollById(id).user_id,token)) return "redirect:/error"
         if (user_id=="0") return ("redirect:/login")
         var poll=pollService.findPollById(id)
         questionService.addQuestion(
@@ -104,6 +111,8 @@ class PollController(private val userService: userServiceClient) {
 
     @GetMapping("/poll/{id}")
     fun process(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int  ) : String{
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
+        if (!userService.checkUser(pollService.findPollById(id).user_id,token)) return "redirect:/error"
         if (user_id!="0"){
             model["auth"] = true
             model["user_name"]=userService.getUserName(user_id.toInt())
@@ -121,6 +130,7 @@ class PollController(private val userService: userServiceClient) {
 
     @PostMapping("/save-result")
     fun saveResult(model: Model, poll_id:Int,  answer:Array<String>, question_id:Array<Int>,  @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String) : String {
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
         var interviewee=intervieweeService.addInterviewee(Interviewee(
                 user_id = user_id.toInt(),
                 poll_id = poll_id
@@ -142,6 +152,8 @@ class PollController(private val userService: userServiceClient) {
 
     @GetMapping("/results/{id}")
     fun results(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int  ) : String{
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
+        if (!userService.checkUser(pollService.findPollById(id).user_id,token)) return "redirect:/error"
         if (user_id!="0"){
             model["auth"] = true
             model["user_name"]=userService.getUserName(user_id.toInt())
@@ -169,6 +181,7 @@ class PollController(private val userService: userServiceClient) {
 
     @GetMapping("/results/interviewee/{id}")
     fun results_interviewee(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int  ) : String{
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
         if (user_id!="0"){
             model["auth"] = true
             model["user_name"]=userService.getUserName(user_id.toInt())
@@ -177,6 +190,7 @@ class PollController(private val userService: userServiceClient) {
         model["index"] = false
         var interviewee=intervieweeService.findIntervieweeById(id)
         var poll=pollService.findPollById(interviewee.poll_id)
+        if (!userService.checkUser(poll.user_id,token)) return "redirect:/error"
         val answers=answerService.findByInterviewee(interviewee)
         var questions=questionService.findByPoll(poll)
         val answersList = mutableListOf<Result>()
@@ -198,6 +212,7 @@ class PollController(private val userService: userServiceClient) {
 
     @GetMapping("/results/question/{id}")
     fun results_question(model: Model, @CookieValue(value = "user_id", defaultValue = "0") user_id: String, @CookieValue(value = "token", defaultValue = "") token: String, @PathVariable id:Int  ) : String{
+        if (!userService.checkUser(user_id.toInt(),token)) return "redirect:/error"
         if (user_id!="0"){
             model["auth"] = true
             model["user_name"]=userService.getUserName(user_id.toInt())
@@ -207,6 +222,7 @@ class PollController(private val userService: userServiceClient) {
         val question=questionService.findQuestionById(id)
         var answers=answerService.findByQuestion(question)
         var poll=pollService.findPollById(question.poll_id)
+        if (!userService.checkUser(poll.user_id,token)) return "redirect:/error"
         val answersList = mutableListOf<Result>()
         for (answer in answers) {
             answersList.add(
